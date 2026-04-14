@@ -19,7 +19,7 @@ services:
   postgres:
     container_name: octobot-postgres
     image: postgres:15
-    command: ["postgres", "-c", "max_connections=1000"]
+    command: ["postgres", "-c", "max_connections=1000", "-c", "timezone=UTC"]
     restart: always
     ports:
       - 5432:5432
@@ -28,6 +28,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=evolution
       - TZ=America/Sao_Paulo
+      - PGTZ=UTC
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -60,7 +61,7 @@ services:
       - N8N_HOST=localhost         
       - N8N_PORT=5678
       - WEBHOOK_URL=http://localhost:5678
-      - TZ=America/Sao_Paulo
+      - TZ=UTC
     volumes:
       - n8n_data:/home/node/.n8n
     depends_on:
