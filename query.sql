@@ -11,6 +11,7 @@ CREATE TABLE meetings (
     conversation_summary        TEXT,
     current_stage               INTEGER NOT NULL DEFAULT 1,
     meeting_status              TEXT NOT NULL DEFAULT 'agendada',
+    meeting_link                TEXT,
     created_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
 
