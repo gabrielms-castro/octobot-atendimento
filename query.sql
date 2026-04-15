@@ -8,9 +8,9 @@ CREATE TABLE meetings (
     urgency_level               TEXT NOT NULL DEFAULT 'limpo',
     office_size                 INTEGER,
     main_need                   TEXT,
+    conversation_summary        TEXT,
     current_stage               INTEGER NOT NULL DEFAULT 1,
     meeting_status              TEXT NOT NULL DEFAULT 'agendada',
-    to_do                       TEXT NOT NULL DEFAULT 'limpo',
     created_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
 
@@ -24,8 +24,5 @@ CREATE TABLE meetings (
         CHECK (current_stage BETWEEN 1 AND 6),
 
     CONSTRAINT meeting_status_check
-        CHECK (meeting_status IN ('agendada', 'reagendada', 'aconteceu', 'cancelada', 'nao_compareceu', 'limpo')),
-
-    CONSTRAINT to_do_check
-        CHECK (to_do IN ('agendar', 'reagendar', 'cancelar', 'limpo'))
+        CHECK (meeting_status IN ('agendada', 'reagendada', 'aconteceu', 'cancelada', 'nao_compareceu', 'limpo'))
 );
