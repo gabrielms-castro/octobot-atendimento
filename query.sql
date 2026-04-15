@@ -1,18 +1,31 @@
 CREATE TABLE meetings (
-    conversation_id TEXT PRIMARY KEY,
-    google_calendar_event_id TEXT UNIQUE,
-    customer_name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    scheduled_date TIMESTAMP NOT NULL,
-    conversation_summary TEXT NOT NULL,
-    interest_level TEXT NOT NULL,
-    meeting_status TEXT NOT NULL DEFAULT 'agendada',
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    conversation_id             TEXT PRIMARY KEY,
+    google_calendar_event_id    TEXT UNIQUE,
+    customer_name               TEXT,
+    email                       TEXT UNIQUE,
+    scheduled_date              TIMESTAMP,
+    interest_level              TEXT NOT NULL DEFAULT 'limpo',
+    urgency_level               TEXT NOT NULL DEFAULT 'limpo',
+    office_size                 INTEGER,
+    main_need                   TEXT,
+    current_stage               INTEGER NOT NULL DEFAULT 1,
+    meeting_status              TEXT NOT NULL DEFAULT 'agendada',
+    to_do                       TEXT NOT NULL DEFAULT 'limpo',
+    created_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
 
     CONSTRAINT interest_level_check
-        CHECK (interest_level IN ('baixo', 'medio', 'alto')),
+        CHECK (interest_level IN ('baixo', 'médio', 'alto', 'limpo')),
 
-    CONSTRAINT status_check
-        CHECK (meeting_status IN ('agendada', 'reagendada', 'aconteceu', 'cancelada', 'nao_compareceu'))
+    CONSTRAINT urgency_level_check
+        CHECK (urgency_level IN ('baixa', 'média', 'alta', 'limpo')),
+
+    CONSTRAINT current_stage_check
+        CHECK (current_stage BETWEEN 1 AND 6),
+
+    CONSTRAINT meeting_status_check
+        CHECK (meeting_status IN ('agendada', 'reagendada', 'aconteceu', 'cancelada', 'nao_compareceu', 'limpo')),
+
+    CONSTRAINT to_do_check
+        CHECK (to_do IN ('agendar', 'reagendar', 'cancelar', 'limpo'))
 );
