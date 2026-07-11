@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-BACKUP_DIR="./n8n_volume_backup_$(date +%Y%m%d_%H%M%S)"
+CONTAINER="octobot-n8n"
+BACKUP_FILE="n8n_volume_backup.tar"
 
-docker cp octobot-n8n:/home/node/.n8n "$BACKUP_DIR"
+docker exec "$CONTAINER" tar -cf - -C /home/node .n8n > "$BACKUP_FILE"
 
-echo "Backup salvo em: $BACKUP_DIR"
+echo "Backup salvo em: $BACKUP_FILE"
