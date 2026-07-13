@@ -16,6 +16,7 @@ S3_PREFIX="${S3_PREFIX:-n8n}"
 RESTORE_FILE_HOST="./latest_workflows_backup.tar.gz"
 RESTORE_FILE_CONTAINER="/tmp/latest_workflows_backup.tar.gz"
 RESTORE_DIR_CONTAINER="/tmp/restored_workflows_backup"
+WORKFLOWS_DIR_CONTAINER="$RESTORE_DIR_CONTAINER/workflows_backup"
 
 # Valida variáveis obrigatórias
 : "${AWS_ACCESS_KEY_ID:?AWS_ACCESS_KEY_ID não definida no .env}"
@@ -71,12 +72,12 @@ echo "Importando workflows no n8n..."
 docker exec "$CONTAINER" sh -lc "
   set -e
 
-  if ! ls \"$RESTORE_DIR_CONTAINER\"/*.json >/dev/null 2>&1; then
-    echo \"Nenhum arquivo .json encontrado em $RESTORE_DIR_CONTAINER\"
+  if ! ls \"$WORKFLOWS_DIR_CONTAINER\"/*.json >/dev/null 2>&1; then
+    echo \"Nenhum arquivo .json encontrado em $WORKFLOWS_DIR_CONTAINER\"
     exit 1
   fi
 
-  for file in \"$RESTORE_DIR_CONTAINER\"/*.json; do
+  for file in \"$WORKFLOWS_DIR_CONTAINER\"/*.json; do
     echo \"Importando workflow: \$file\"
     n8n import:workflow --input=\"\$file\"
   done
@@ -88,3 +89,7 @@ docker exec "$CONTAINER" rm -f "$RESTORE_FILE_CONTAINER"
 docker exec "$CONTAINER" rm -rf "$RESTORE_DIR_CONTAINER"
 
 echo "Restore preparado com sucesso."
+
+# Limpa arquivo temporário no host
+echo "Limpando arquivo temporário no host..."
+rm -f "$RESTORE_FILE_HOST"
