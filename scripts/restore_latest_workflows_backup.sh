@@ -68,9 +68,19 @@ echo "Conteúdo extraído:"
 docker exec "$CONTAINER" find "$RESTORE_DIR_CONTAINER" -maxdepth 3 -type f
 
 echo "Importando workflows no n8n..."
-docker exec "$CONTAINER" n8n import:workflow \
-  --separate \
-  --input="$RESTORE_DIR_CONTAINER"
+docker exec "$CONTAINER" sh -lc "
+  set -e
+
+  if ! ls \"$WORKFLOWS_DIR_CONTAINER\"/*.json >/dev/null 2>&1; then
+    echo \"Nenhum arquivo .json encontrado em $WORKFLOWS_DIR_CONTAINER\"
+    exit 1
+  fi
+
+  for file in \"$WORKFLOWS_DIR_CONTAINER\"/*.json; do
+    echo \"Importando workflow: \$file\"
+    n8n import:workflow --input=\"\$file\"
+  done
+"
 echo "Workflows importados com sucesso."
 
 echo "Limpando arquivos temporários do /tmp dentro do container..."
