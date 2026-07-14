@@ -17,6 +17,7 @@ services:
         condition: service_healthy
     networks:
       - app_net
+      - db_net
     logging:
       driver: json-file
       options:
