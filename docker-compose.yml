@@ -2,7 +2,7 @@ services:
 
   evolution-api:
     container_name: octobot-evolution-api
-    image: evoapicloud/evolution-api:v2.2.3
+    image: evoapicloud/evolution-api:v2.3.6
     restart: always
     ports:
       - "8080:8080"
