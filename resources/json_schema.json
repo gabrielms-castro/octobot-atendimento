@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "reply": {
+      "type": "string",
+      "description": "Mensagem de texto para o cliente. Nunca contém JSON."
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "type": ["string", "null"] },
+        "dor_principal": { "type": ["string", "null"], "enum": ["processos_manuais","falta_integracao","retrabalho","dificuldade_escalar","custo_mao_de_obra","ja_sei_o_que_quero","outro_motivo", null] },
+        "outro_motivo_texto": { "type": ["string", "null"] },
+        "objetivo_procurado": { "type": ["string", "null"], "enum": ["automacao_robos","implementar_ia","servidores","sistema_pdv","analise_dados","transformacao_digital","desenvolver_solucao","outro", null] },
+        "objetivo_outro_texto": { "type": ["string", "null"] },
+        "ferramentas_atuais": { "type": ["array", "null"], "items": { "type": "string", "enum": ["crm","erp","pdv","atendimento_automatizado","ferramentas_ia","analise_dados","nao_possui","outros"] } },
+        "area_impactada": { "type": ["string", "null"], "enum": ["atendimento","operacional","financeiro","mais_de_uma", null] },
+        "usa_sistema": { "type": ["string", "null"] },
+        "buscou_solucao_antes": { "type": ["string", "null"], "enum": ["sim_limitada","sim_nao_atendeu","avaliando","comecando_agora", null] },
+        "quer_agendar": { "type": ["boolean", "null"] },
+        "data_hora_desejada": { "type": ["string", "null"] },
+        "etapa": { "type": "string", "enum": ["saudacao","dor","reforco","ferramentas","area","sistema","diagnostico","solucao_anterior","convite_reuniao","coleta_horario","encerrado"] },
+        "solicitar_horarios_disponiveis": { "type": ["boolean", "null"] },
+        "pronto_para_agendar": { "type": ["boolean", "null"] }
+      },
+      "required": ["nome","dor_principal","outro_motivo_texto","objetivo_procurado","objetivo_outro_texto","ferramentas_atuais","area_impactada","usa_sistema","buscou_solucao_antes","quer_agendar","data_hora_desejada","etapa", "solicitar_horarios_disponiveis","pronto_para_agendar"]
+    }
+  },
+  "required": ["reply", "data"]
+}
