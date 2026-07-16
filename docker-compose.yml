@@ -60,6 +60,19 @@ services:
         limits:
           memory: 512m
 
+  migrate:
+    image: amacneil/dbmate
+    command: --wait up
+    environment:
+      DATABASE_URL: "${OTTO_DATABASE_URL}"
+    volumes:
+      - ./db/migrations:/db/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - db_net
+
   redis:
     image: redis:7
     container_name: octobot-redis
@@ -129,8 +142,7 @@ services:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
     volumes:
-      - ./n8n-task-runners.json:/etc/n8n-task-runners.json:ro
-      - ./n8n-runners-data:/home/node/.n8n
+      - ./resources/n8n-task-runners.json:/etc/n8n-task-runners.json:ro
     depends_on:
       - n8n
     networks:
