@@ -1,10 +1,10 @@
 -- migrate:up
 CREATE TABLE IF NOT EXISTS meetings (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	session_id TEXT UNIQUE NOT NULL,
+	session_id TEXT NOT NULL,
 	lead_name TEXT NOT NULL,
-	phone_number TEXT UNIQUE NOT NULL,
-	email TEXT UNIQUE NOT NULL,
+	phone_number TEXT NOT NULL,
+	email TEXT NOT NULL,
 
 	google_event_id TEXT,
 	meet_status TEXT,
